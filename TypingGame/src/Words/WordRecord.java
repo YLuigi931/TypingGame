@@ -76,6 +76,13 @@ final public class WordRecord {
 		
 	}
 	
+	/**
+	* Registers the text to display in a tool tip.   The text 
+	* displays when the cursor lingers over the component.
+	*
+	* @param text Shuffles the word Bank 
+	* 
+	*/
 	public void shuffle() {
 		assert this != null;
 		
