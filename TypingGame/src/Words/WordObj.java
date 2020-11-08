@@ -8,7 +8,7 @@ class WordObj implements Comparable<WordObj> {
 	WordObj(String subject){
 		
 		try {
-			
+			subject = subject.toLowerCase();
 			subject = subject.trim();
 			this.subject = subject;
 			
@@ -23,19 +23,17 @@ class WordObj implements Comparable<WordObj> {
 	}
 	
 	
-	
 	@Override
 	public int compareTo(WordObj o) {
-		
 		int result =  this.compareTo(o);
 		//assert
 		if(result == 0) {
 			assert this.equals(o) :
 				this.getClass().getSimpleName() + ": compareTo inconsistent with Equals.";
-		}
-		
+		}	
 		return result;
 	}
+	
 	@Override
 	public int hashCode() {
 		int hash = 19;
@@ -47,8 +45,15 @@ class WordObj implements Comparable<WordObj> {
 	public boolean equals(Object that) {
 		if(this == that) return true;
 		if(that == null) return false;
+		WordObj test = (WordObj)that;
+		if(this.getWord() != test.getWord()) return false;
 		if(getClass() != that.getClass()) return false;
-		return false;
+		return true;
 	}
 	
+//	public static void main(String[] args) {
+//		WordObj steve = new WordObj("");
+//		WordObj erwin = new WordObj("");
+//		System.out.println(steve.equals(erwin));
+//	}
 }
