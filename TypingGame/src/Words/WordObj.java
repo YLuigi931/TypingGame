@@ -1,11 +1,21 @@
 package Words;
 
-
-class WordObj implements Comparable<WordObj> {
+/*
+ *  @author Luigi Yebra
+ *  @version v1.0-alpha
+ *  @since 2020-11-06
+ *  
+ *  
+ */
+public class WordObj implements Comparable<WordObj> {
 	
+	/*
+	 * word of the Object
+	 */
 	String subject;
+		
 	
-	WordObj(String subject){
+	 WordObj(String subject){
 		
 		try {
 			subject = subject.toLowerCase();
@@ -17,7 +27,10 @@ class WordObj implements Comparable<WordObj> {
 		}
 		
 	}
-
+	 
+	 /*
+	  * @return Word given to the Object
+	  */
 	public String getWord(){
 		return subject;
 	}

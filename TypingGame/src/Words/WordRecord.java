@@ -1,24 +1,54 @@
 package Words;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+ *  @author Luigi Yebra
+ *  @version v1.0-alpha
+ *  @since 2020-11-06
+ *  
+ *  
+ */
 final public class WordRecord {
-	
-	WordObj[] word;
+	/*
+	 * The array that will hold this particular word bank
+	 */
+	public WordObj[] word;
+	/*
+	 * The name of the word Bank
+	 */
 	String title;
+	/*
+	 * size of the word bank
+	 */
 	int length;
 	
+	/**
+	 * Class constructor
+	 * @param  title  is the name of the word bank
+	 * @param  length  the initial size of the word bank
+	 * @throws IllegalArgumnetException, if given the wrong input
+	 * 
+	 */
 	public WordRecord( String title, int length) {
 		
-		assert length > 0;
-		assert title != null;
-		
+//		assert length > 0;
+//		assert title != null;
+		if(title ==null || length <= 0) throw new IllegalArgumentException();
+		title.trim();
 		this.word = new WordObj[length];
 		this.title = title;
 		this.length = length;
+	}
+	/*
+	 * @return gives the size of array
+	 */
+	public int getSize() {
+		return this.length;
 	}
 	
 	@Override
@@ -39,12 +69,20 @@ final public class WordRecord {
 		output.append(" ], length = " + length +"] " );
 		return output.toString();
 	}
-	
+	/**
+	 * @return a new copy of WordRecord
+	 */
 	public WordRecord getCopy() {
 		assert this != null;
 		
 		return new WordRecord(title,length);
 	}
+	
+	/**
+	 * Adds another word to the word bank
+	 * @param accepts Strings
+	 * 
+	 */
 	
 	public void addWord(String addd) {
 		assert addd != null;
@@ -61,6 +99,11 @@ final public class WordRecord {
 		
 	}
 	
+	/**Counts how many elements in the word bank
+	 * without counting the extra space
+	 * 
+	 * @return int
+	 */
 	public int countElements() {
 		assert this != null;
 		
@@ -71,84 +114,45 @@ final public class WordRecord {
 		return count;
 	}
 	
+	
+	/**Allows user to remove a word in the word bank
+	 * @param input a String that is contained in the word bank
+	 */
 	public void removeWord(String wrd) {
 		
+		List<WordObj> tmp = new ArrayList<>(Arrays.asList(word));
+		List<WordObj> tmp2 = tmp.stream()
+		.filter(x -> x != null).collect(Collectors.toList());
+		tmp2 = tmp2.stream()
+				.filter(x -> !x.getWord().equals(wrd)).collect(Collectors.toList());
+		WordObj[] tmp3;
+		if(this.countElements() < length/2 ) {
+			tmp3 = new WordObj[this.countElements()];
+			this.length = this.countElements();
+		}else {
+			tmp3 = new WordObj[length];
+		}
 		
+		tmp3 = tmp2.toArray(tmp3);
+		this.word = tmp3;
 	}
 	
 	/**
-	* Registers the text to display in a tool tip.   The text 
-	* displays when the cursor lingers over the component.
-	*
-	* @param text Shuffles the word Bank 
-	* 
+	* Shuffle the contents in the word bank
 	*/
 	public void shuffle() {
 		assert this != null;
-		
 		
 		List<WordObj> result = Arrays.asList(this.word);
 		List<WordObj> temp = result.stream()
 				.filter(x -> x != null)
 				.collect(Collectors.toList());
-		
-//		temp.stream().forEach((WordObj) -> {
-//			System.out.println(WordObj.getWord());
-//		});
-		
+
 		Collections.shuffle(temp);
-		
-//		temp.stream().forEach((WordObj) -> {
-//			System.out.println(WordObj.getWord());
-//		});
 				
 		WordObj[] newLst = new WordObj[length];		
 		newLst = temp.toArray(newLst);
 
 		this.word = newLst;
-		
-//		assertFalse(Arrays.equals(this.word, newLst));
-
 	}
-	
-	public static void main(String[] args) {
-		WordRecord steve = new WordRecord("LOTR", 5);
-		steve.word[0] = new WordObj("Gold");
-//		steve.word[1] = new WordObj("NerF");
-//		steve.word[2] = new WordObj("silver");
-//		steve.word[3] = new WordObj("GOOGLE");
-//		steve.word[4] = new WordObj("the      ");
-		
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		steve.addWord(" Teen   ");
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		steve.addWord("Boat ");
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		steve.addWord(" Sponge   ");
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		steve.addWord("Waifu");
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		steve.addWord(" NERF ");
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		steve.addWord("silver ");
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		steve.addWord(" THE   ");
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		steve.addWord("google");
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		steve.shuffle();
-		System.out.println(steve.toString());
-		System.out.println(steve.countElements());
-		
-	}
-	
 }
